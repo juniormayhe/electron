@@ -74,3 +74,4 @@ Then rerun permissions
 sudo chown root:$USER ./node_modules/electron/dist/chrome-sandbox
 sudo chmod 4755 ./node_modules/electron/dist/chrome-sandbox
 ```
+The error on libffmpeg.so in WSL ubuntu is a restriction so maybe we cannot run electron in wsl yet, since WSL needs chormium-chromium-browser, chromium snap which is not supported.
