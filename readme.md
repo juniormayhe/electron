@@ -38,6 +38,12 @@ to run the app defined in entry point:
 ```
 npm start
 ```
+npm start should call the script defined in package.json > scripts > start: `electron .`
+
+to observe changes and restart electron (hot reload):
+```
+npm watch
+```
 
 ## Packages that make electron quit unexpectedly
 
