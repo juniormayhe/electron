@@ -22,6 +22,15 @@ master-electron@1.0.0 /home/junior/master-electron-master
 ├── electron@9.0.0
 └── nodemon@2.0.3
 ```
+to update dependencies
+```
+npm uninstall electron
+npm uninstall nodemon
+npm install electron@latest --save-dev
+npm install nodemon@latest --save-dev
+```
+
+## Running app
 
 app entry point is set on packages.json { "main": "start file.js" } which will be used to start the electron app.
 
@@ -29,6 +38,19 @@ to run the app defined in entry point:
 ```
 npm start
 ```
+
+## Packages that make electron quit unexpectedly
+
+The app may crash because the external package may be built with a different version of node compared to our local node's internal v8 engine. To fix this we could use electron-rebuild command line tool.
+
+To rebuild the package to use our installed node version:
+```
+npm install -g electron-rebuild
+./electron-rebuild <package name>
+```
+
+## WSL problems
+Wsl 1 does not work well with electron. The tweaks below could not make it work: 
 
 If start does not work, review logs and try to install missing libs in Linux.
 ```
@@ -75,15 +97,4 @@ sudo chown root:$USER ./node_modules/electron/dist/chrome-sandbox
 sudo chmod 4755 ./node_modules/electron/dist/chrome-sandbox
 ```
 The error on libffmpeg.so in WSL ubuntu is a restriction so maybe we cannot run electron in wsl yet, since WSL needs chormium-chromium-browser, chromium snap which is not supported.
-
-## Packages that make electron quit unexpectedly
-
-The app may crash because the external package may be built with a different version of node compared to our local node's internal v8 engine. To fix this we could use electron-rebuild command line tool.
-
-To rebuild the package to use our installed node version:
-```
-npm install -g electron-rebuild
-./electron-rebuild <package name>
-```
-  
 
