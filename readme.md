@@ -61,7 +61,7 @@ npm install -g electron-rebuild
 bcrypt module is an example of node module that can be rebuilt using our node installation.
 
 ## Debugging
-Create a .vscode/launch.json file in vscode
+Create a .vscode\launch.json file in vscode
 ```
 {
   "version": "0.2.0",
