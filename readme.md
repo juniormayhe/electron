@@ -46,14 +46,42 @@ npm run watch
 ```
 
 ## Packages that make electron quit unexpectedly
+The message `dyld: lazy symbol binding failed: Symbol not found` may show up when you run `npm start`.
 
-The app may crash because the external package may be built with a different version of node compared to our local node's internal v8 engine. To fix this we could use electron-rebuild command line tool.
+The electron app may crash because we are trying to use an  external package that was compiled with a different version of node compared to our local node's internal v8 engine.
 
-To rebuild the package to use our installed node version:
+To fix this we could use electron-rebuild command line tool to compile the node module to our electron node version.
+
+To rebuild the package to use our installed electron node module version:
 ```
 npm install -g electron-rebuild
 ./electron-rebuild <package name>
 ```
+
+bcrypt module is an example of node module that can be rebuilt using our node installation.
+
+## Debugging
+Create a .vscode/launch.json file in vscode
+```
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Main Process",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
+      "windows": {
+        "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
+      },
+      "args" : ["."],
+      "outputCapture": "std"
+    }
+  ]
+}
+```
+
 
 ## WSL problems
 Wsl 1 does not work well with electron. The tweaks below could not make it work: 
