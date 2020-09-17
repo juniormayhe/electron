@@ -42,7 +42,7 @@ npm start should call the script defined in package.json > scripts > start: `ele
 
 to observe changes and restart electron (hot reload):
 ```
-npm watch
+npm run watch
 ```
 
 ## Packages that make electron quit unexpectedly
