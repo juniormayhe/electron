@@ -160,6 +160,26 @@ to clear all data from global sessions (cookies, local storage, index db or serv
 session.defaultSession.clearStorageData()
 ```
 
+Session cookies without expiration set will keep the cookie until the app is finished, so the data will not be available during app restart.
+```typescript
+let cookie = { url: 'https://mydomain', name: 'cookie1': value: 'electron' }
+session.defaultSession.cookies.set(cookie).then(()=>{ console.log('temporary cookie was set')})
+```
+Session cookies with expiration will keep the cookie until the time defined, and data will be available during app restart.
+```typescript
+let cookie = { url: 'https://mydomain', name: 'cookie1': value: 'electron', expirationDate: 1622810000 }
+session.defaultSession.cookies.set(cookie).then(()=>{ console.log('cookie was set with expiration')})
+```
+
+Get cookies
+```
+let getCookies = () => {
+  session.defaultSession.cookies.get({})
+    .then(cookies => console.log(cookies))
+    .error(errors=> console.log(errors))
+}
+```
+
 ## WSL problems
 Wsl 1 does not work well with electron. The tweaks below could not make it work: 
 
