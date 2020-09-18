@@ -131,6 +131,19 @@ app.on('ready', ()=>{
   createWindow();
 })
 ```
+
+## Sessions
+
+Global session for all renderers / browser windows
+```typescript
+const {app, BrowserWindow, session} = require('electron')
+let globalSession = session.defaultSession
+```
+Custom session only for current window
+```typescript
+let customSession = session.fromPartition('my-partition')
+```
+
 ## WSL problems
 Wsl 1 does not work well with electron. The tweaks below could not make it work: 
 
