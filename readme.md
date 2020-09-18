@@ -146,6 +146,10 @@ Custom session only for current window. Partition sessions are stored in memory 
 let customSession = session.fromPartition('my-partition')
 mainWindow = new BrowserWindow({ webPreferences: {session: customSession} })
 ```
+to make custom session be persisted in disk and available after app restart, add `persist:` to the name of the partition
+```typescript
+let customSession = session.fromPartition('persist:my-partition')
+```
 
 ## WSL problems
 Wsl 1 does not work well with electron. The tweaks below could not make it work: 
