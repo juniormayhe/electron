@@ -171,7 +171,7 @@ let cookie = { url: 'https://mydomain', name: 'cookie1': value: 'electron', expi
 session.defaultSession.cookies.set(cookie).then(()=>{ console.log('cookie was set with expiration')})
 ```
 
-Get cookies
+Get all cookies
 ```
 let getCookies = () => {
   session.defaultSession.cookies.get({})
@@ -179,6 +179,15 @@ let getCookies = () => {
     .error(errors=> console.log(errors))
 }
 ```
+
+Get cookie by name
+
+let getCookies = () => {
+  session.defaultSession.cookies.get({name: 'cookie1'})
+    .then(cookies => console.log(cookies))
+    .error(errors=> console.log(errors))
+}
+
 
 ## WSL problems
 Wsl 1 does not work well with electron. The tweaks below could not make it work: 
