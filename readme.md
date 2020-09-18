@@ -134,15 +134,17 @@ app.on('ready', ()=>{
 
 ## Sessions
 
-Global session for all renderers / browser windows
+Global session for all renderers / browser windows. Default session is persisted on disk and kept when app is restarted.
+A default session is a persistent partition.
+
 ```typescript
 const {app, BrowserWindow, session} = require('electron')
 let globalSession = session.defaultSession
 ```
-Custom session only for current window
+Custom session only for current window. Partition sessions are stored in memory and gone when app is restarted.
 ```typescript
 let customSession = session.fromPartition('my-partition')
-mainWindow = new BrowserWindow({ session: customSession })
+mainWindow = new BrowserWindow({ webPreferences: {session: customSession} })
 ```
 
 ## WSL problems
