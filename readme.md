@@ -150,6 +150,15 @@ to make custom session be persisted in disk and available after app restart, add
 ```typescript
 let customSession = session.fromPartition('persist:my-partition')
 ```
+you can also set custom session directly in BrowserWindow
+```typescript
+mainWindow = new BrowserWindow({ webPreferences: {session: 'persist:my-partiton'} })
+```
+
+to clear all data from global sessions (cookies, local storage, index db or service workers):
+```typescript
+session.defaultSession.clearStorageData()
+```
 
 ## WSL problems
 Wsl 1 does not work well with electron. The tweaks below could not make it work: 
