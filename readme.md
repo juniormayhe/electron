@@ -89,6 +89,48 @@ https://stackoverflow.com/questions/35876939/frameless-window-with-controls-in-e
 npm install --save electron-window-state
 ```
 
+```javascript
+const {app, BrowserWindow} = require('electron')
+const windowState = require('electron-window-state')
+
+//prevent garbage collecting
+let mainWindow
+function createWindow()
+{
+//set defaults to remember when app restart. x and y would be centered
+let windowStateManager = windowState({
+    defaultWidth: 1000,
+    defaultHeight: 800,
+  });
+  
+ mainWindow = new BrowserWindow({
+    width: windowStateManager.width, 
+    height: windowStateManager.height,
+    x: windowStateManager.x,
+    y: windowStateManager.y,
+    webPreferences: { nodeIntegration: true },
+    titleBarStyle: 'hidden', /* for mac only*/
+    show: false, //avoid blank window when starting app
+    backgroundColor: '#2B2E3B', // avoid blank window when starting app
+    frame: false,
+    minWidth: 400,
+    minHeight: 400
+  })
+  
+  mainWindow.loadFile('index.html')
+  mainWindow.once('ready-to-show', mainWindow.show)
+  
+  windowStateManager.manage(mainWindow)
+  mainWindow.on('closed',  () => {
+    mainWindow = null
+  })  
+}
+
+app.on('ready', ()=>{
+  console.log('app is running');
+  createWindow();
+})
+```
 ## WSL problems
 Wsl 1 does not work well with electron. The tweaks below could not make it work: 
 
