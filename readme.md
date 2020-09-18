@@ -172,7 +172,7 @@ session.defaultSession.cookies.set(cookie).then(()=>{ console.log('cookie was se
 ```
 
 Get all cookies
-```
+```typescript
 let getCookies = () => {
   session.defaultSession.cookies.get({})
     .then(cookies => console.log(cookies))
@@ -181,13 +181,18 @@ let getCookies = () => {
 ```
 
 Get cookie by name
-
+```typescript
 let getCookies = () => {
   session.defaultSession.cookies.get({name: 'cookie1'})
     .then(cookies => console.log(cookies))
     .error(errors=> console.log(errors))
 }
+```
 
+Remove cookie
+```typescript
+session.defaultSession.cookies.remove({url: 'https://mydomain', name: 'cookie1'}).then(cookies => console.log('cookie removed'))
+```
 
 ## WSL problems
 Wsl 1 does not work well with electron. The tweaks below could not make it work: 
