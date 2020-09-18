@@ -142,6 +142,7 @@ let globalSession = session.defaultSession
 Custom session only for current window
 ```typescript
 let customSession = session.fromPartition('my-partition')
+mainWindow = new BrowserWindow({ session: customSession })
 ```
 
 ## WSL problems
