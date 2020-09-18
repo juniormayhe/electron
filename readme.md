@@ -81,7 +81,13 @@ Create a .vscode\launch.json file in vscode
   ]
 }
 ```
+## Frameless Window
+https://stackoverflow.com/questions/35876939/frameless-window-with-controls-in-electron-windows
 
+## Remember window positions and sizes
+```
+npm install --save electron-window-state
+```
 
 ## WSL problems
 Wsl 1 does not work well with electron. The tweaks below could not make it work: 
