@@ -209,10 +209,21 @@ ipcMain.on('channel-name', (ipcMainEvent, dataReceived) => {
   
   // reply to renderer, if needed
   ipcMainEvent.reply('reply-channel-name', stringOrObjectHere)
+  // or
+  ipcMainEvent.sender.send('reply-channel-name', stringOrObjectHere)
+})
+
+// send to the any render process listening channel 2
+ipcMainEvent.send('channel2-name', dataToSend)
+
+// send message to renderer from main window webcontents is also possible 
+// but we must wait for page to load
+mainWindow.webContents.on('did-finish-load', e=>{
+  mainWindow.webContents.send('channel3-name', dataToSend)
 })
 ```
 
-Listen to a message channel from main in renderer process
+Listen to a message channel from main in renderer process (a browser instance)
 ```typescript
 const {ipcRenderer} = require('electron')
 
