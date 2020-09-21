@@ -300,7 +300,23 @@ ipcMain.handle('ask-fruit-channel', e=>{
   return askFruit()
 })
 ```
+## Process
+process represents a global object that holds information about all processes running in main and renderer when nodeIntegration is enabled in webPreferences. Process are useful for using shared API.
 
+`process.versions` displays electron version, chrome version, ssl version, node version, etc. 
+
+`process.type` indicates whether the running process is main process (displayed as browser) or renderer process.
+
+## Shell
+
+shell can be used to interact / call prefered apps defined by user in his/her OS.
+```typescript
+const {shell} = require('electron')
+shell.openExternal('http://open-this-with-your-default-os-browser')
+
+// dirname gets current running file path
+shell.openPath(`${__dirname}/images/open-this-with-default-os-image-viewer.png`)
+```
 
 ## WSL problems
 Wsl 1 does not work well with electron. The tweaks below could not make it work: 
