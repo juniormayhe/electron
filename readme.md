@@ -196,7 +196,7 @@ session.defaultSession.cookies.remove({url: 'https://mydomain', name: 'cookie1'}
 
 ## Messaging between Main and Renderer
 
-Inter-process communication can be done between main process (ipcMain) and renderer process (ipcRenderer).
+Inter-process communication can be done between main process (ipcMain) and renderer process (ipcRenderer). All send is async by default.
 
 Listen to a message channel from renderer in main process
 ```typescript
@@ -234,6 +234,28 @@ ipcRenderer.send('channel-name', dataToSend)
 ipcRenderer.on('reply-channel-name', (ipcRenderer, dataReceived) => {
   // do something with dataReceived, a string or object. this arg is optional
   console.log(dataReceived)
+})
+```
+
+By default send messages are async, all following methods are executed with no blocking call.
+But if we need to make synchronous calls, we must change the send method.
+
+Send sync message to main from renderer
+```typescript
+const {ipcRenderer} = require('electron')
+
+// send synchronous message to the main process, this will be blocked until main responds
+let returnValueFromMain = ipcRenderer.sendSync('channel-name', dataToSend)
+
+```
+
+Listen sync message in main
+```typescript
+const {ipcMain} = require('electron')
+
+// listen to channel-name sent by renderer process
+ipcMain.on('channel-name', ipcMainEvent => {
+  ipcMainEvent.returnValue = 'A response sent from main to be waited by renderer'  
 })
 ```
 
