@@ -323,6 +323,28 @@ shell.showItemInFolder(`${__dirname}/images/show-this-in-file-explorer.png`)
 shell.moveItemToTrash(`${__dirname}/images/show-this-in-file-explorer.png`)
 ```
 
+## Detect network
+
+navigator picks network status:
+```
+let isOnline = navigator.onLine
+
+// or we could listen to events in window
+window.addEventListener('online', e=>{
+  isOnline = true;
+})
+
+window.addEventListener('offline', e=>{
+  isOnline = false;
+})
+```
+## Notification
+On windows full screen prevents the display of notifications. If you are not on full screen mode:
+```
+let n = new Notification('My App', {body: 'App started!'})
+n.onclick = e => {console.log('notification was clicked')}
+```
+
 ## WSL problems
 Wsl 1 does not work well with electron. The tweaks below could not make it work: 
 
