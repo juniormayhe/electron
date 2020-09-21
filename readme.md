@@ -255,6 +255,9 @@ const {ipcMain} = require('electron')
 
 // listen to channel-name sent by renderer process
 ipcMain.on('channel-name', ipcMainEvent => {
+  
+  // do stuff here before responding to renderer
+  
   ipcMainEvent.returnValue = 'A response sent from main to be waited by renderer'  
 })
 ```
