@@ -194,6 +194,38 @@ Remove cookie
 session.defaultSession.cookies.remove({url: 'https://mydomain', name: 'cookie1'}).then(cookies => console.log('cookie removed'))
 ```
 
+## Messaging between Main and Renderer
+
+Inter-process communication can be done between main process (ipcMain) and renderer process (ipcRenderer).
+
+Listen to a message channel from renderer in main process
+```typescript
+const {ipcMain} = require('electron')
+
+// listen to channel-name sent by renderer process
+ipcMain.on('channel-name', (ipcMainEvent, dataReceived) => {
+  // do something with dataReceived, a string or object. this arg is optional
+  console.log(dataReceived)
+  
+  // reply to renderer, if needed
+  ipcMainEvent.reply('reply-channel-name', stringOrObjectHere)
+})
+```
+
+Listen to a message channel from main in renderer process
+```typescript
+const {ipcRenderer} = require('electron')
+
+// send to the main process
+ipcRenderer.send('channel-name', dataToSend)
+
+// listen to channel-name sent by main process
+ipcRenderer.on('reply-channel-name', (ipcRenderer, dataReceived) => {
+  // do something with dataReceived, a string or object. this arg is optional
+  console.log(dataReceived)
+})
+```
+
 ## WSL problems
 Wsl 1 does not work well with electron. The tweaks below could not make it work: 
 
