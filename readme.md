@@ -316,6 +316,11 @@ shell.openExternal('http://open-this-with-your-default-os-browser')
 
 // dirname gets current running file path
 shell.openPath(`${__dirname}/images/open-this-with-default-os-image-viewer.png`)
+
+shell.showItemInFolder(`${__dirname}/images/show-this-in-file-explorer.png`)
+
+// deletes the file
+shell.moveItemToTrash(`${__dirname}/images/show-this-in-file-explorer.png`)
 ```
 
 ## WSL problems
