@@ -246,7 +246,6 @@ const {ipcRenderer} = require('electron')
 
 // send synchronous message to the main process, this will be blocked until main responds
 let returnValueFromMain = ipcRenderer.sendSync('channel-name', dataToSend)
-
 ```
 
 Listen sync message in main
@@ -261,6 +260,47 @@ ipcMain.on('channel-name', ipcMainEvent => {
   ipcMainEvent.returnValue = 'A response sent from main to be waited by renderer'  
 })
 ```
+
+Having hundreds of functions and using channels this way can become difficult to manage, remote module could simplify but exposes main to the client which may not be secure because using messaging from remote module exposes main process to renderer (client browser). Besides this security threat, remote modules causes performance penalty in long running loop. As long as the remote module is kept in renderer process (not be garbage collected), the corresponding object in main will be kept. Remote module is disabled by default. To use it we must enable in main:
+
+```typescript
+const {ipcMain} = require('electron')
+
+mainWindow = new BrowserWindow({
+    webPreferences: { nodeIntegration: true, enableRemoteModule: true },
+```
+Remote module helps to access UI elements available only in main process, such as menus and dialog.
+To open a dialog in main from renderer using remote module:
+
+```typescript
+const {remote} = require('electron')
+const {dialog} = remote
+dialog.showMessageBox({message: 'hello from renderer', buttons: ['One','Two']}).then(res=>{console.log(res})
+```
+
+An alternative to keep avoid hundreds of listeners is to use invoke and handle methods for messaging:
+
+Send message to main from renderer
+```typescript
+const {ipcRenderer} = require('electron')
+// send message to invoke the dialog in main
+ipcRenderer.invoke('ask-fruit-channel')
+  .then(answer => console.log(answer)) // when option is chosen in main, prints the choice
+```
+
+Listen to renderer message in main
+```typescript
+async function askFruit(){
+  let fruits = ['Apple', 'Orange', 'Grape']
+  let choice = await dialog.showMessageBox({message: 'Picke the fruit',buttons: fruits})
+  return fruits[choice.response];
+}
+// listen renderer request to show a dialog and return a promise
+ipcMain.handle('ask-fruit-channel', e=>{
+  return askFruit()
+})
+```
+
 
 ## WSL problems
 Wsl 1 does not work well with electron. The tweaks below could not make it work: 
